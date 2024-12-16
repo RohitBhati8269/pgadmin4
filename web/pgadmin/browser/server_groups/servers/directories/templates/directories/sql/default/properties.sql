@@ -12,8 +12,8 @@ SELECT
     WHERE sl1.objoid=dir.oid) AS seclabels
 FROM
     pg_catalog.edb_dir dir
-{% if dirid %}
-WHERE dir.oid={{ dirid|qtLiteral(conn) }}::OID
+{% if drid %}
+WHERE dir.oid={{ drid|qtLiteral(conn) }}::OID
 {% endif %}
 ORDER BY name;
 

@@ -37,6 +37,7 @@ define('pgadmin.node.directory', [
     pgBrowser.Nodes['directory'] = pgBrowser.Node.extend({
       parent_type: 'server',
       type: 'directory',
+      epasHelp: true,
       sqlAlterHelp: 'sql-alterdirectory.html',
       sqlCreateHelp: 'sql-createdirectory.html',
       dialogHelp: url_for('help.static', {'filename': 'directory_dialog.html'}),
@@ -56,21 +57,30 @@ define('pgadmin.node.directory', [
         pgBrowser.add_menus([{
           name: 'create_directory_on_server', node: 'server', module: this,
           applies: ['object', 'context'], callback: 'show_obj_properties',
-          category: 'create', priority: 4, label: gettext('Directory...1'),
-          data: {action: 'create'},
-          enable: 'can_create_directory',
+          category: 'create', priority: 4, label: gettext('Directory...'),
+          data: {action: 'create',
+            data_disabled: gettext('This option is only available on EPAS servers.')},
+            /* Function is used to check the server type and version.
+           * Resource Group only supported in PPAS 9.4 and above.
+           */
+            enable: function(node, item) {
+              let treeData = pgBrowser.tree.getTreeNodeHierarchy(item),
+                server = treeData['server'];
+              return server.connected && node.server_type === 'ppas' &&
+                node.version >= 90400;
+            },
         },{
           name: 'create_directory_on_coll', node: 'coll-directory', module: this,
           applies: ['object', 'context'], callback: 'show_obj_properties',
-          category: 'create', priority: 4, label: gettext('Directory...2'),
-          data: {action: 'create'},
-          enable: 'can_create_directory',
+          category: 'create', priority: 4, label: gettext('Directory...'),
+          data: {action: 'create',
+            data_disabled: gettext('This option is only available on EPAS servers.')},
         },{
           name: 'create_directory', node: 'directory', module: this,
           applies: ['object', 'context'], callback: 'show_obj_properties',
-          category: 'create', priority: 4, label: gettext('Directory...3'),
-          data: {action: 'create'},
-          enable: 'can_create_directory',
+          category: 'create', priority: 4, label: gettext('Directory...'),
+          data: {action: 'create',
+            data_disabled: gettext('This option is only available on EPAS servers.')},
         },
         ]);
       },

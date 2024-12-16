@@ -6,8 +6,8 @@ SELECT
     pg_catalog.shobj_description(dir.oid, 'pg_directory') AS description
 FROM
     pg_catalog.edb_dir dir
-{% if dirid %}
+{% if drid %}
 WHERE
-    dir.oid={{ dirid|qtLiteral(conn) }}::OID
+    dir.oid={{ drid|qtLiteral(conn) }}::OID
 {% endif %}
 ORDER BY name;

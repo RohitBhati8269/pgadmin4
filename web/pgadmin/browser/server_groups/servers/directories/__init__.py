@@ -1,4 +1,4 @@
-
+"""Implements Directories for PPAS 9.4 and above"""
 
 import json
 import re
@@ -27,6 +27,10 @@ class DirectoryModule(CollectionNodeModule):
 
     def __init__(self, import_name, **kwargs):
         super().__init__(import_name, **kwargs)
+
+        self.min_ver = 90400
+        self.max_ver = None
+        self.server_type = ['ppas']
 
     def get_nodes(self, gid, sid):
         """
